@@ -4,12 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductResources;
 use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 
 
-class ProductController extends Controller
+class ProductController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +20,7 @@ class ProductController extends Controller
     {
         $products = Product::all();
 
-        return $this->sendResponse(ProductResource::collection($products), 'Products  successfully.');
+        return $this->sendResponse(ProductResources::collection($products), 'Products  successfully.');
     }
 
     /**
@@ -54,7 +54,7 @@ class ProductController extends Controller
 
         $product = Product::create($input);
 
-        return $this->sendResponse(new ProductResource($product), 'Product created successfully.');
+        return $this->sendResponse(new ProductResources($product), 'Product created successfully.');
     }
 
     /**
@@ -71,7 +71,7 @@ class ProductController extends Controller
             return $this->sendError('Product not found.');
         }
 
-        return $this->sendResponse(new ProductResource($product), 'Product show successfully.');
+        return $this->sendResponse(new ProductResources($product), 'Product show successfully.');
     }
 
     /**
@@ -109,7 +109,7 @@ class ProductController extends Controller
         $product->detail = $input['detail'];
         $product->save();
 
-        return $this->sendResponse(new ProductResource($product), 'Product updated successfully.');
+        return $this->sendResponse(new ProductResources($product), 'Product updated successfully.');
     }
 
     /**
@@ -118,10 +118,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Product $products)
     {
         $product->delete();
 
-        return $this->sendResponse([], 'Product deleted successfully.');
+       return $this->sendResponse([], 'Product deleted successfully.');
     }
 }
